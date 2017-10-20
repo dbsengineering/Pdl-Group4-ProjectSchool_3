@@ -1,9 +1,8 @@
 /********************************************************************
- * 						Classe MatrixSWik							*
- * 					Départ de l'application.						*
- * 				Cette classe permet également l'affichage 			*
- * 			console. En d'autres termes, sert d'interface entre 	*
- * 			l'utilisateur et le programme							*
+ * 						Classe Controler.							*
+ * 			Cette classe est le moteur du programme.				*
+ * 		Permet d'instancier les différents objets du programme		*
+ * 		et de faire la passerlle entre les différentes classes.		*
  *																	*
  *		School : .......... Istic									*
  *		Formation : ....... Master 1 MIAGE							*
@@ -13,18 +12,17 @@
  *		Authors : ......... Cavron Jérémy, Saker Amine, 			*
  *							Makroum Siham, Aqasbi Ouahi Mohammed, 	*
  *							Lachkar Anas, Yassine					*
- *		DateStart : ....... 12/10/2017								*
- *		DateModify : ...... 12/10/2017								*
+ *		DateStart : ....... 20/10/2017								*
+ *		DateModify : ...... 20/10/2017								*
  *******************************************************************/
+package controler;
 
-
-public class MatrixSWik {
+public class Controler {
 	
 	/**
-	 * Procédure de démarrage du programme
-	 * @param args : arguments venant du terminal. Type liste de chaînes de caractères.
+	 * Constructeur de la classe.
 	 */
-	public static void main(String[] args){
+	public Controler(){
 		
 	}
 
