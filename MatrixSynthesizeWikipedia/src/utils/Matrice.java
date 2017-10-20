@@ -1,8 +1,7 @@
 /********************************************************************
  * 						Classe Matrice.								*
  * 					Permet de construire les matrices				*
- * 					de comparaison à partir de plusieurs fichiers	*
- * 					Json récupérés.									*
+ * 					de comparaison à partir d'une liste triée.		*
  * 					Cette classe crée un ficheir csv avec le 		*
  * 					nom du critère rechercher						*
  * 					Classe qui utilise les librairies 				*

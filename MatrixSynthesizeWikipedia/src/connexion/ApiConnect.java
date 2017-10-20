@@ -6,13 +6,13 @@
  * 				retourner les informations trouvées en ligne.		*
  * 				Cette classe à principalement 2 paramètres:			*
  * 				Un paramètre qui designe le nom de se qu'on veut	*
- * 				chercher. (exemple : String search; 				*
- * 				et dans l'exemple search = "France")				*
+ * 				chercher. (exemple : String word; 					*
+ * 				et dans l'exemple word = "France")					*
  * 				et un deuxième paramètre qui correspond à la clé.	*
  * 				(exemple : String key; -> Q16....)					*
  * 				elle devra avoir une fonction getKeys() qui 		*
  * 				renvoit la liste des clés trouvées					*
- * 				et 2 setters (voir méthodes)						*
+ * 				et retourne également des fichiers JSON				*
  *																	*
  *		School : .......... Istic									*
  *		Formation : ....... Master 1 MIAGE							*
@@ -32,7 +32,7 @@ import java.util.Set;
 public class ApiConnect {
 	
 	//--- Déclaration des propriétées ---
-	private String search; // Mot recherché
+	private String word; // Mot recherché
 	private String key; // Clé recherchée
 	private Set<String> lstKeys; // Liste de clée qui sera retournée
 	
@@ -53,7 +53,7 @@ public class ApiConnect {
 	 * @param search
 	 */
 	public void setSearch(String search) {
-		this.search = search;
+		this.word = search;
 	}
 
 	/**
@@ -66,28 +66,13 @@ public class ApiConnect {
 	
 	// --- Getters ---
 
-	/**
-	 * 
-	 * @return
-	 */
-	public String getSearch() {
-		return this.search;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String getKey() {
-		return this.key;
-	}
 	
 	/**
 	 * 
 	 */
 	public String toString(){
 		return "Key : " + this.key
-				+ "Search : " + this.search;
+				+ "Search : " + this.word;
 	}
 
 }

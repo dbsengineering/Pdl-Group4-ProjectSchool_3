@@ -2,19 +2,8 @@
  * 						Classe Search.								*
  * 					Permet de trier les différents éléments			*
  * 					trouvés dans les fichiers JSON. 				*
- * 				Elle reçoit 2 paramètres							*
- * 					principaux. 1 pour le mot rechercher			*
- * 					(exemple : String recherche; -> "France")		*
- * 					Et un deuxième pour la clé. (exemple : 			*
- * 					String key; -> "Q16...")						*
- * 					la classe recevera également une liste de clés  *
- * 					et devra posséder un getLstKey() et				*
- * 					un getWord()									*
- * 					Il faut filter les langues, anglais, français	*
- * 					etc...											*
- * 					Cette classe doit retourner une liste			*
- * 					de tous les éléments pertients qu'on trouve 	*
- * 					dans les fichiers JSON							*
+ * 				Elle reçoit les fichiers JSON et retourne			*
+ * 				une liste triée.
  *																	*
  *		School : .......... Istic									*
  *		Formation : ....... Master 1 MIAGE							*
@@ -34,9 +23,7 @@ import java.util.Set;
 public class Search {
 	
 	//--- Déclaration des Propriétés ---
-	private String search; // Mot recherché
-	private String key; // Clé recherchée
-	private Set<String> lstKeys; // Liste de clées 
+	private Set<String> lstTrie; // Liste triée
 	
 	/**
 	 * Constructeur de la classe
