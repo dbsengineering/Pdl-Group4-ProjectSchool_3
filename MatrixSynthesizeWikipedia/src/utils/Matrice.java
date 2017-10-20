@@ -28,7 +28,7 @@ public class Matrice {
 	 * Constructeur de la classe.
 	 */
 	public Matrice(){
-		// consturcteur 
+		// consturct
 	}
 
 }
