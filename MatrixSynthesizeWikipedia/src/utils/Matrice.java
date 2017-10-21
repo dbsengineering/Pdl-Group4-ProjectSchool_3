@@ -20,6 +20,7 @@
  *******************************************************************/
 package utils;
 
+import org.apache.commons.csv.*;
 
 public class Matrice {
 	
