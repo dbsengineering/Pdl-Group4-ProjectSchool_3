@@ -27,6 +27,14 @@
  *******************************************************************/
 package connexion;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.Set;
 
 public class ApiConnect {
@@ -35,19 +43,42 @@ public class ApiConnect {
 	private String word; // Mot recherché
 	private String key; // Clé recherchée
 	private Set<String> lstKeys; // Liste de clée qui sera retournée
+	private String arg; // Argument demandé
+	
 	
 	/**
 	 * Constructeur de la classe.
+	 * @param arg : est la clée recherchée.
 	 */
-	public ApiConnect(){
-		
+	public ApiConnect(String arg){
+		this.arg = arg;
 	}
+
 	
 	//--- connexion ---
 	
 	// ici tout ce qu'il faut pour se connecter
+	public void runKey() {
+		try {
+			URL oracle = new URL("https://www.wikidata.org/wiki/Special:EntityData/"+this.arg+".json");
+	        BufferedReader in = new BufferedReader(
+	        new InputStreamReader(oracle.openStream()));
+
+	        String inputLine;
+	        while ((inputLine = in.readLine()) != null)
+	            System.out.println(inputLine);
+	        in.close();
+		}
+		catch(UnknownHostException ex) {
+			ex.printStackTrace();
+		}
+		catch(IOException e){
+			e.printStackTrace();
+		}
+	}
 	
 	//--- fin connexion ---
+	
 	
 	
 	//--- Test en mode standalone --
@@ -58,7 +89,7 @@ public class ApiConnect {
 	 * @param args
 	 */
 	public static void main(String[] args){
-		
+		new ApiConnect("Q142").runKey();
 	}
 
 	//--- Setters ---
@@ -79,6 +110,14 @@ public class ApiConnect {
 		this.key = key;
 	}
 	
+	/**
+	 * 
+	 * @param arg
+	 */
+	public void setArg(String arg){
+		this.arg = arg;
+	}
+	
 	// --- Getters ---
 
 	
@@ -87,7 +126,8 @@ public class ApiConnect {
 	 */
 	public String toString(){
 		return "Key : " + this.key
-				+ "Search : " + this.word;
+				+ " Search : " + this.word
+				+ " arg : " + this.arg;
 	}
 
 }
