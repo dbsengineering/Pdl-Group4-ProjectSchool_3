@@ -25,5 +25,17 @@ public class Controler {
 	public Controler(){
 		
 	}
+	
+	
+	// --- Test en mode standalone --
+	/**
+	 * Procédure qui permet de faire des tests en mode standalone cette
+	 * procédure sera supprimée une fois le programme complet terminé.
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+
+	}
 
 }

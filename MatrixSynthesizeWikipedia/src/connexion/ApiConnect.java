@@ -45,6 +45,21 @@ public class ApiConnect {
 	
 	//--- connexion ---
 	
+	// ici tout ce qu'il faut pour se connecter
+	
+	//--- fin connexion ---
+	
+	
+	//--- Test en mode standalone --
+	/**
+	 * Procédure qui permet de faire des tests en mode standalone
+	 * cette procédure sera supprimée une fois le programme complet
+	 * terminé.
+	 * @param args
+	 */
+	public static void main(String[] args){
+		
+	}
 
 	//--- Setters ---
 	
