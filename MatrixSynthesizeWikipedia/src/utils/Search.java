@@ -24,7 +24,7 @@ import org.json.*;
 public class Search {
 	
 	//--- Déclaration des Propriétés ---
-	private Set<String> lstTrie; // Liste triée
+	private Set<String> lstTrie; // Liste triée wwwwww
 	
 	/**
 	 * Constructeur de la classe
