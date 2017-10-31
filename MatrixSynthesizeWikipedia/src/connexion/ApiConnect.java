@@ -30,12 +30,15 @@ package connexion;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.Socket;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+
+
 
 public class ApiConnect {
 	
@@ -48,33 +51,50 @@ public class ApiConnect {
 	
 	/**
 	 * Constructeur de la classe.
-	 * @param arg : est la clée recherchée.
+	 * 
 	 */
-	public ApiConnect(String arg){
-		this.arg = arg;
+	public ApiConnect(){
+		
 	}
 
 	
 	//--- connexion ---
 	
 	// ici tout ce qu'il faut pour se connecter
-	public void runKey() {
-		try {
-			URL oracle = new URL("https://www.wikidata.org/wiki/Special:EntityData/"+this.arg+".json");
-	        BufferedReader in = new BufferedReader(
-	        new InputStreamReader(oracle.openStream()));
+	/**
+	 * Procédure qui permet de télécharger les données Json à partir d'une liste de clées.
+	 * Les données Json sont en forme de chaine de caractère et ajouter dans une liste.
+	 * @param lstKeys : est la liste des clées.
+	 */
+	public ArrayList<String> downloadJsonFiles(Set<String> lstKeys) {
+		ArrayList<String> lstJson = new ArrayList<String>();
+		Iterator<String> itKeys = lstKeys.iterator();
+		
+		while(itKeys.hasNext()){
+			try {
+				String key = itKeys.next();
+				URL url = new URL("https://www.wikidata.org/wiki/Special:EntityData/"
+				+ key +".json");
+				
+				BufferedReader in = new BufferedReader(
+		        new InputStreamReader(url.openStream()));
 
-	        String inputLine;
-	        while ((inputLine = in.readLine()) != null)
-	            System.out.println(inputLine);
-	        in.close();
+		        String inputLine ="";
+		        String jsonLine = "";
+		        while ((inputLine = in.readLine()) != null){
+		            jsonLine += inputLine;
+		        }
+		        
+		        lstJson.add(jsonLine);
+		        in.close();
+			} catch(IOException e){
+				e.printStackTrace();
+			}
 		}
-		catch(UnknownHostException ex) {
-			ex.printStackTrace();
+		if(!lstJson.isEmpty()){
+			return lstJson;
 		}
-		catch(IOException e){
-			e.printStackTrace();
-		}
+		return null;
 	}
 	
 	//--- fin connexion ---
@@ -88,8 +108,21 @@ public class ApiConnect {
 	 * terminé.
 	 * @param args
 	 */
-	public static void main(String[] args){
-		new ApiConnect("Q142").runKey();
+	public static void main(String[] args) throws MalformedURLException{
+		Set<String> lst = new HashSet<String>();
+		ArrayList<String> lstJ = new ArrayList<String>();
+		lst.add("Q1225254");
+		lst.add("Q142");
+		lst.add("Q162569");
+		ApiConnect apC = new ApiConnect();
+		lstJ = apC.downloadJsonFiles(lst);
+		
+		
+		//affichage résultat
+		Iterator<String> itJ = lstJ.iterator();
+		while(itJ.hasNext()){
+			System.out.println(itJ.next());
+		}
 	}
 
 	//--- Setters ---
