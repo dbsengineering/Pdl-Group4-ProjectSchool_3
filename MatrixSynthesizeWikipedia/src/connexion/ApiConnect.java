@@ -48,7 +48,7 @@ public class ApiConnect {
 	private Set<String> lstKeys; // Liste de clée qui sera retournée
 	private String arg; // Argument demandé
 	
-	
+	//pop
 	/**
 	 * Constructeur de la classe.
 	 * 
