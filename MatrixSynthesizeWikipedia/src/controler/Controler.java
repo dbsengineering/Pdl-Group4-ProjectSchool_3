@@ -17,13 +17,20 @@
  *******************************************************************/
 package controler;
 
+import connexion.ApiConnect;
+import utils.Matrice;
+
 public class Controler {
+	
+	private ApiConnect apC;
+	private Matrice mat; 
 	
 	/**
 	 * Constructeur de la classe.
 	 */
 	public Controler(){
-		
+		apC = new ApiConnect();
+		mat = new Matrice();
 	}
 	
 	
