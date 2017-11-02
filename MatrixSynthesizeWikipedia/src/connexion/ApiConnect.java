@@ -83,7 +83,7 @@ public class ApiConnect extends Thread {
 	 * @param langue
 	 */
 	public void dlKeys(String word, String langue){
-
+//zefpoi
 			Thread thSearch = new Thread(new Runnable(){
 				public void run(){
 					String url = "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=" + word 
