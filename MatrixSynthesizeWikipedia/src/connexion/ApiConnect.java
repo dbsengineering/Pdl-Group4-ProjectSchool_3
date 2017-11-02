@@ -48,6 +48,7 @@ public class ApiConnect extends Thread {
 	
 	//--- Déclaration des propriétées ---
 	private String word; // Mot recherché
+	private String langue;
 	private String key; // Clé recherchée
 	private Set<String> lstKeys; // Liste de clée qui sera retournée
 	private Map<String, String> mapKeys; //Liste des clés avec titres
@@ -79,10 +80,19 @@ public class ApiConnect extends Thread {
 	
 	/**
 	 * 
-	 * @param word
-	 * @param langue
+	 * @param params
 	 */
-	public void dlKeys(String word, String langue){
+	public void dlKeys(String...params){
+		word = "";
+		langue = "";
+			if(params.length <= 1){
+				langue = "fr";
+			}else{
+				langue = params[1];
+			}
+			if(!params[0].equals("") ){
+				
+				word = params[0];
 
 			Thread thSearch = new Thread(new Runnable(){
 				public void run(){
@@ -104,38 +114,23 @@ public class ApiConnect extends Thread {
 						}
 						in.close();
 						JSONObject myResponse = new JSONObject(response.toString());
-						
-						Set<String> l = new HashSet<String>();
-						l = myResponse.keySet();
-						
-						System.out.println(l);
-						
+					
 						int nbSearch = (int) myResponse.get("search-continue");
-						System.out.println("Nombre de résultats : "+ nbSearch);
 						
-						ArrayList<String> l2 = new ArrayList<String>();
-						//l2 = (ArrayList) myResponse.get("search");
-						
-						//JSONObject jSearch = new JSONObject(myResponse.get("search"));
-						
-						//l2 = jSearch.;
-						//System.out.println(jSearch.length());
-						
-						//String search = myResponse.getString("search");
-						
-						//for(int i =0; i < nbSearch; i++){
-						//	System.out.println(jSearch.get(String.valueOf(i)));
-						//}
-						
-						
-						//System.out.println((JSONObject)myResponse.get("search"));
-						//ajoutKeys(response.toString());
+						ArrayList<String> ff = new ArrayList<String>();
+						for(int i =0; i < nbSearch; i++){
+							
+							setMapKeys(((JSONObject)myResponse.getJSONArray("search").get(i)).get("id").toString(), 
+									((JSONObject)myResponse.getJSONArray("search").get(i)).get("label").toString());
+						}
+
 					} catch (Exception e) {
 						System.out.println("problème de récupération !");
 					}
 				}
 			});
 			thSearch.start();
+			}
 	}
 	
 	/**
@@ -191,7 +186,7 @@ public class ApiConnect extends Thread {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Set<String>lst = new HashSet<String>();
+		/*Set<String>lst = new HashSet<String>();
 		
 		lst.add("Q1225254");
 		lst.add("Q142");
@@ -236,7 +231,7 @@ public class ApiConnect extends Thread {
 	        }
 	        i++;
 			//System.out.println(itJ.next());
-		}
+		}*/
 		
 		//ApiConnect apC = new ApiConnect();
 		
@@ -258,6 +253,10 @@ public class ApiConnect extends Thread {
 	 */
 	public void setSearch(String search) {
 		this.word = search;
+	}
+	
+	public synchronized void setMapKeys(String key, String titre){
+		this.mapKeys.put(key, titre);
 	}
 
 	/**
@@ -282,11 +281,14 @@ public class ApiConnect extends Thread {
 	}
 	
 	/**
-	 * Returne la liste des clées avec les titres
+	 * Returne une copie de la liste des clées avec les titres
 	 * @return
 	 */
 	public Map<String, String> getKeys(){
-		return this.mapKeys;
+		
+		Map<String, String> mapK = new HashMap<String,String>();
+		mapK = this.mapKeys;
+		return mapK;
 	}
 	
 	/**

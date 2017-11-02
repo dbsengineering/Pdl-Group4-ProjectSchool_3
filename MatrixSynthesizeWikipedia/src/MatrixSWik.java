@@ -17,7 +17,18 @@
  *		DateModify : ...... 2/11/2017								*
  *******************************************************************/
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
+
 import connexion.ApiConnect;
 
 public class MatrixSWik {
@@ -35,8 +46,61 @@ public class MatrixSWik {
 		scanInput.close();
 		
 		ApiConnect apC = new ApiConnect();
-		apC.dlKeys(data, "fr");
-		//System.out.println(data);
+		apC.dlKeys(data);
+		
+		Map<String, String> map = new HashMap<String,String>();
+		Set<String> lsK = new HashSet<String>();
+		map = apC.getKeys();
+		while(map.isEmpty()){
+			map = apC.getKeys();
+		}
+		
+		lsK = map.keySet();
+		System.out.println(lsK.size());
+		Iterator<String> it = lsK.iterator();
+		
+		/*while(it.hasNext()){
+			String key = it.next();
+			
+			System.out.println("Key : " + key + ". Titre : " + map.get(key));
+		}*/
+		
+		Thread[] threads = new Thread[lsK.size()];
+		apC.dlJsonString(threads, lsK);
+		for (Thread thread : threads) {
+		    try {
+				thread.join();//Attendre que tous les Threads soient terminées
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		ArrayList<String> lstt = apC.getList();
+		Iterator<String> itJ = lstt.iterator();
+		int i = 1;
+		while(itJ.hasNext()){
+			BufferedWriter output = null;
+	        try {
+	            File file = new File(i+".json");
+	            output = new BufferedWriter(new FileWriter(file));
+	            output.write(itJ.next());
+	        } catch ( IOException e ) {
+	            e.printStackTrace();
+	        } finally {
+	          if ( output != null ) {
+	            try {
+					output.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	          }
+	        }
+	        i++;
+			//System.out.println(itJ.next());
+		}
+		
+		System.out.println(lstt.size());
 		
 	}
 
