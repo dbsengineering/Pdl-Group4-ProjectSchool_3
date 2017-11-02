@@ -36,8 +36,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import org.json.JSONObject;
 
@@ -48,6 +50,7 @@ public class ApiConnect extends Thread {
 	private String word; // Mot recherché
 	private String key; // Clé recherchée
 	private Set<String> lstKeys; // Liste de clée qui sera retournée
+	private Map<String, String> mapKeys; //Liste des clés avec titres
 	private ArrayList<String> lstJson;
 	private String arg; // Argument demandé
 	
@@ -63,24 +66,76 @@ public class ApiConnect extends Thread {
 	 */
 	public ApiConnect(){
 		this.lstJson = new ArrayList<String>();
+		this.mapKeys = new HashMap<String, String>();
 	}
 
-	public synchronized void ajout(String jsonString){
+	public synchronized void ajoutContent(String jsonString){
 		this.lstJson.add(jsonString);
 	}
 	
+	public synchronized void ajoutKeys(String key, String titre){
+		this.mapKeys.put(key, titre);
+	}
 	
-	public void dlKeys(Thread[] threads, Set<String> lstWords){
-		Iterator<String> itWords = lstWords.iterator();
-		int i = 0;
-		while(itWords.hasNext()){
-			String word = itWords.next();
-			threads[i] = new Thread(new Runnable(){
+	/**
+	 * 
+	 * @param word
+	 * @param langue
+	 */
+	public void dlKeys(String word, String langue){
+
+			Thread thSearch = new Thread(new Runnable(){
 				public void run(){
-					
+					String url = "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=" + word 
+							+ "&language=" + langue + "&format=json";
+					try {
+						URL obj = new URL(url);
+						HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+						// optional default is GET
+						con.setRequestMethod("GET");
+						// add request header
+						con.setRequestProperty("User-Agent", "Mozilla/5.0");
+						int responseCode = con.getResponseCode();
+						BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+						String inputLine;
+						StringBuffer response = new StringBuffer();
+						while ((inputLine = in.readLine()) != null) {
+							response.append(inputLine);
+						}
+						in.close();
+						JSONObject myResponse = new JSONObject(response.toString());
+						
+						Set<String> l = new HashSet<String>();
+						l = myResponse.keySet();
+						
+						System.out.println(l);
+						
+						int nbSearch = (int) myResponse.get("search-continue");
+						System.out.println("Nombre de résultats : "+ nbSearch);
+						
+						ArrayList<String> l2 = new ArrayList<String>();
+						//l2 = (ArrayList) myResponse.get("search");
+						
+						JSONObject jSearch = new JSONObject(myResponse.get("search"));
+						
+						//l2 = jSearch.;
+						System.out.println(jSearch.length());
+						
+						//String search = myResponse.getString("search");
+						
+						//for(int i =0; i < nbSearch; i++){
+						//	System.out.println(jSearch.get(String.valueOf(i)));
+						//}
+						
+						
+						//System.out.println((JSONObject)myResponse.get("search"));
+						//ajoutKeys(response.toString());
+					} catch (Exception e) {
+						System.out.println("problème de récupération !");
+					}
 				}
 			});
-		}
+			thSearch.start();
 	}
 	
 	/**
@@ -89,7 +144,7 @@ public class ApiConnect extends Thread {
 	 * @param lstKeys
 	 */
 	public void dlJsonString(Thread[] threads, Set<String> lstKeys){
-		Iterator<String> itKeys = lstKeys.iterator();
+		Iterator<String> itKeys = lstKeys.iterator();//
 		int i = 0;
 		while (itKeys.hasNext()) {
 			String key = itKeys.next();
@@ -117,7 +172,7 @@ public class ApiConnect extends Thread {
 						//System.out.println(response.toString());
 						// Read JSON response and print
 						//JSONObject myResponse = new JSONObject(response.toString());
-						ajout(response.toString());
+						ajoutContent(response.toString());
 					} catch (Exception e) {
 						System.out.println("problème de récupération !");
 					}
@@ -224,6 +279,14 @@ public class ApiConnect extends Thread {
 	// --- Getters ---
 	public ArrayList<String> getList(){
 		return this.lstJson;
+	}
+	
+	/**
+	 * Returne la liste des clées avec les titres
+	 * @return
+	 */
+	public Map<String, String> getKeys(){
+		return this.mapKeys;
 	}
 	
 	/**

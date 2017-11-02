@@ -1,3 +1,6 @@
+import java.util.Scanner;
+
+import connexion.ApiConnect;
 
 /********************************************************************
  * 						Classe MatrixSWik							*
@@ -15,7 +18,7 @@
  *							Makroum Siham, Aqasbi Ouahi Mohammed, 	*
  *							Lachkar Anas, Yassine					*
  *		DateStart : ....... 12/10/2017								*
- *		DateModify : ...... 12/10/2017								*
+ *		DateModify : ...... 2/11/2017								*
  *******************************************************************/
 
 
@@ -26,6 +29,16 @@ public class MatrixSWik {
 	 * @param args : arguments venant du terminal. Type liste de chaînes de caractères.
 	 */
 	public static void main(String[] args){
+		String data;
+		System.out.println("Veuillez entrez un critère de recherche : ");
+		Scanner scanInput = new Scanner(System.in);
+		
+		data = scanInput.nextLine();
+		scanInput.close();
+		
+		ApiConnect apC = new ApiConnect();
+		apC.dlKeys(data, "fr");
+		//System.out.println(data);
 		
 	}
 
