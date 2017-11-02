@@ -116,10 +116,10 @@ public class ApiConnect extends Thread {
 						ArrayList<String> l2 = new ArrayList<String>();
 						//l2 = (ArrayList) myResponse.get("search");
 						
-						JSONObject jSearch = new JSONObject(myResponse.get("search"));
+						//JSONObject jSearch = new JSONObject(myResponse.get("search"));
 						
 						//l2 = jSearch.;
-						System.out.println(jSearch.length());
+						//System.out.println(jSearch.length());
 						
 						//String search = myResponse.getString("search");
 						
