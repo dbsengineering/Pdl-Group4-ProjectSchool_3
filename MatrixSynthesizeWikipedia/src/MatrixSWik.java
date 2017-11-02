@@ -1,7 +1,3 @@
-import java.util.Scanner;
-
-import connexion.ApiConnect;
-
 /********************************************************************
  * 						Classe MatrixSWik							*
  * 					Départ de l'application.						*
@@ -21,6 +17,8 @@ import connexion.ApiConnect;
  *		DateModify : ...... 2/11/2017								*
  *******************************************************************/
 
+import java.util.Scanner;
+import connexion.ApiConnect;
 
 public class MatrixSWik {
 	
