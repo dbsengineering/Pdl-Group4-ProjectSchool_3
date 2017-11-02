@@ -28,78 +28,105 @@
 package connexion;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import org.json.JSONObject;
 
 
-
-public class ApiConnect {
+public class ApiConnect extends Thread {
 	
 	//--- Déclaration des propriétées ---
 	private String word; // Mot recherché
 	private String key; // Clé recherchée
 	private Set<String> lstKeys; // Liste de clée qui sera retournée
+	private ArrayList<String> lstJson;
 	private String arg; // Argument demandé
 	
-	//pop
+	//static InputStream is = null;
+	static JSONObject jObj = null;
+	static String json = "";
+
+	
+	//pip
 	/**
 	 * Constructeur de la classe.
 	 * 
 	 */
 	public ApiConnect(){
-		
+		this.lstJson = new ArrayList<String>();
 	}
 
+	public synchronized void ajout(String jsonString){
+		this.lstJson.add(jsonString);
+	}
 	
-	//--- connexion ---
 	
-	// ici tout ce qu'il faut pour se connecter
+	public void dlKeys(Thread[] threads, Set<String> lstWords){
+		Iterator<String> itWords = lstWords.iterator();
+		int i = 0;
+		while(itWords.hasNext()){
+			String word = itWords.next();
+			threads[i] = new Thread(new Runnable(){
+				public void run(){
+					
+				}
+			});
+		}
+	}
+	
 	/**
-	 * Procédure qui permet de télécharger les données Json à partir d'une liste de clées.
-	 * Les données Json sont en forme de chaine de caractère et ajouter dans une liste.
-	 * @param lstKeys : est la liste des clées.
+	 * 
+	 * @param threads
+	 * @param lstKeys
 	 */
-	public ArrayList<String> downloadJsonFiles(Set<String> lstKeys) {
-		ArrayList<String> lstJson = new ArrayList<String>();
+	public void dlJsonString(Thread[] threads, Set<String> lstKeys){
 		Iterator<String> itKeys = lstKeys.iterator();
-		
-		while(itKeys.hasNext()){
-			try {
-				String key = itKeys.next();
-				URL url = new URL("https://www.wikidata.org/wiki/Special:EntityData/"
-				+ key +".json");
-				
-				BufferedReader in = new BufferedReader(
-		        new InputStreamReader(url.openStream()));
-
-		        String inputLine ="";
-		        String jsonLine = "";
-		        while ((inputLine = in.readLine()) != null){
-		            jsonLine += inputLine;
-		        }
-		        
-		        lstJson.add(jsonLine);
-		        in.close();
-			} catch(IOException e){
-				e.printStackTrace();
-			}
+		int i = 0;
+		while (itKeys.hasNext()) {
+			String key = itKeys.next();
+			threads[i] = new Thread(new Runnable() {
+				public void run() {
+					String url = "https://www.wikidata.org/wiki/Special:EntityData/" + key + ".json";
+					try {
+						URL obj = new URL(url);
+						HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+						// optional default is GET
+						con.setRequestMethod("GET");
+						// add request header
+						con.setRequestProperty("User-Agent", "Mozilla/5.0");
+						int responseCode = con.getResponseCode();
+						BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+						String inputLine;
+						StringBuffer response = new StringBuffer();
+						while ((inputLine = in.readLine()) != null) {
+							response.append(inputLine);
+						}
+						in.close();
+						// print in String
+						//notify();
+						//System.out.println("notify()");
+						//System.out.println(response.toString());
+						// Read JSON response and print
+						//JSONObject myResponse = new JSONObject(response.toString());
+						ajout(response.toString());
+					} catch (Exception e) {
+						System.out.println("problème de récupération !");
+					}
+				}
+			});
+			threads[i].start();
+			i++;
 		}
-		if(!lstJson.isEmpty()){
-			return lstJson;
-		}
-		return null;
 	}
-	
-	//--- fin connexion ---
-	
-	
 	
 	//--- Test en mode standalone --
 	/**
@@ -108,21 +135,64 @@ public class ApiConnect {
 	 * terminé.
 	 * @param args
 	 */
-	public static void main(String[] args) throws MalformedURLException{
-		Set<String> lst = new HashSet<String>();
-		ArrayList<String> lstJ = new ArrayList<String>();
+	public static void main(String[] args) {
+		Set<String>lst = new HashSet<String>();
+		
 		lst.add("Q1225254");
 		lst.add("Q142");
 		lst.add("Q162569");
+		lst.add("Q1917170");
+		
+		Iterator<String> it = lst.iterator();
+		
 		ApiConnect apC = new ApiConnect();
-		lstJ = apC.downloadJsonFiles(lst);
+		Thread[] threads = new Thread[lst.size()];
+		apC.dlJsonString(threads, lst);
 		
-		
-		//affichage résultat
-		Iterator<String> itJ = lstJ.iterator();
-		while(itJ.hasNext()){
-			System.out.println(itJ.next());
+		for (Thread thread : threads) {
+		    try {
+				thread.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
+		Iterator<String> itJ = apC.getList().iterator();
+		
+		int i = 1;
+		while(itJ.hasNext()){
+			BufferedWriter output = null;
+	        try {
+	            File file = new File(i+".json");
+	            output = new BufferedWriter(new FileWriter(file));
+	            output.write(itJ.next());
+	        } catch ( IOException e ) {
+	            e.printStackTrace();
+	        } finally {
+	          if ( output != null ) {
+	            try {
+					output.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	          }
+	        }
+	        i++;
+			//System.out.println(itJ.next());
+		}
+		
+		//ApiConnect apC = new ApiConnect();
+		
+		/*try {
+			while(it.hasNext()){
+				new GetJson().run(it.next());
+				//apC.call_me(it.next());
+			}
+	        } catch (Exception e) {
+	         e.printStackTrace();
+	       }*/
 	}
 
 	//--- Setters ---
@@ -152,7 +222,9 @@ public class ApiConnect {
 	}
 	
 	// --- Getters ---
-
+	public ArrayList<String> getList(){
+		return this.lstJson;
+	}
 	
 	/**
 	 * 
