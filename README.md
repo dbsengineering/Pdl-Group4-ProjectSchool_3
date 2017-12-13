@@ -76,7 +76,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Cavron Jérémy** - Initial work* - [PurpleBooth](https://github.com/dbsengineering)
+* **Cavron Jérémy** - Initial work* - [dbsengineering](https://github.com/dbsengineering)
 * **Makroum Siham** - Initial work*
 * **Aqasbi Ouahi Mohammed** - Initial work*
 * **Lachkar Anas** - Initial work*
