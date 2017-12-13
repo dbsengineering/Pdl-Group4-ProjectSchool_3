@@ -10,6 +10,8 @@ manually entered, the user will simply have to fill in the fields of the values 
 harvest. These matrices will then be imported into "OpenCompare" which will take care of the following tasks
 formatting of these.
 
+<img src="https://user-images.githubusercontent.com/8668325/33942650-d87b66f6-e016-11e7-84ca-33b0f3cec959.PNG" width="743" height="467">
+
 ### Prerequisites
 
 What things you need to install the software and how to install them
