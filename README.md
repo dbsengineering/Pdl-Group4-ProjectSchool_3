@@ -4,7 +4,11 @@ Istic School Master in Computer Science - PDL Project
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+The purpose of this project is to generate comparison matrices in the ".csv" format at
+from Wikipedia(not implement here) or Wikidata data(implement here). No data should be
+manually entered, the user will simply have to fill in the fields of the values to be entered.
+harvest. These matrices will then be imported into "OpenCompare" which will take care of the following tasks
+formatting of these.
 
 ### Prerequisites
 
@@ -70,15 +74,17 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Cavron Jérémy** - Initial work* - [PurpleBooth](https://github.com/dbsengineering)
+* **Makroum Siham** - Initial work*
+* **Aqasbi Ouahi Mohammed** - Initial work*
+* **Lachkar Anas** - Initial work*
+* **El Baza Yassine** - Initial work*
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/dbsengineering/Pdl-Group4-ProjectSchool_3/contributors) who participated in this project.
 
 
 ## Acknowledgments
 
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+* Project school Master MIAGE ISTIC Rennes - FRANCE
 
 
