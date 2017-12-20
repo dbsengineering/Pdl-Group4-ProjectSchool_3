@@ -24,10 +24,6 @@ json-20170516.jar
 json-simple-1.1.jar
 ```
 
-### Installing
-
-We don't have nothing to install
-
 
 ## Deployment
 
@@ -48,9 +44,6 @@ Once we have the key of that word, we can download the properties that we'll com
 
 Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
 ## Authors
 
