@@ -14,53 +14,31 @@ formatting of these.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+You need to install Eclipse as a devleppoment tool.
 
 ```
-Give examples
+We used 3 libraries :
+
+commons-csv-1.5.jar
+json-20170516.jar
+json-simple-1.1.jar
 ```
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
+We don't have nothing to install
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+```
+We launch the application
+```
+
+To begin with, we type the "word" that we're looking for. Secondly, we type the number of results that we want.
+After that we get a list of search results and we have to choise one of them.
+
+Once we have the key of that word, we can download the properties that we'll compare and generate in a CSV File.
 
 ## Built With
 
