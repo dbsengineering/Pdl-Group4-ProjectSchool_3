@@ -32,6 +32,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -315,7 +318,16 @@ public class MatrixSWik {
 								//Action suivant les types récupéré
 								switch((String)jsonDataValue.get("type")) {
 									case "string":
+										
 										value = String.valueOf(jsonDataValue.get("value"));
+										if(value.equals(null)) {
+											value="null";
+										}
+										Pattern pattern = Pattern.compile("(?:.jpg|.JPG)");
+								        Matcher matcher = pattern.matcher(value);
+								        while(matcher.find()) {
+								            value = "https://commons.wikimedia.org/wiki/File:"+ value;
+								        }
 										break;
 										
 									case "wikibase-entityid":
@@ -354,11 +366,13 @@ public class MatrixSWik {
 										jsonValue = (JSONObject)jsonDataValue.get("value");
 										if(jsonValue.has("amount")) {
 											value = String.valueOf(jsonValue.get("amount"));
+											if(value.charAt(0) == '+') {
+												value = value.substring(1);
+											}
 										}
 										break;
 									default:
 										value = "0";
-		
 								}
 		
 								System.out.println(IdProp + " : " + mapIdProperties.get(IdProp) + " : "+ value);
