@@ -38,8 +38,7 @@ Once we have the key of that word, we can download the properties that we'll com
 
 ## Built With
 
-* [Eclipse](https://www.eclipse.org) - The web software used
-
+* [Eclipse](https://www.eclipse.org) 
 ## Contributing
 
 Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
